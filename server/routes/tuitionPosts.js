@@ -65,6 +65,64 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get my posts (Guardian) — must be BEFORE /:id to avoid Express matching "my" as an ObjectId
+router.get('/my/posts', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    
+    if (user.role !== 'guardian' && user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    let query = {};
+    if (user.role === 'guardian') {
+      query.guardian = req.user.userId;
+    }
+
+    const posts = await TuitionPost.find(query)
+      .populate('applications.tutor', 'name email avatar bio')
+      .populate('selectedTutor', 'name email avatar')
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
+  } catch (error) {
+    console.error('Error fetching my posts:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+// Get my applications (Tutor) — must be BEFORE /:id to avoid Express routing conflict
+router.get('/my/applications', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    
+    if (user.role !== 'tutor') {
+      return res.status(403).json({ message: 'Only tutors can view applications' });
+    }
+
+    const posts = await TuitionPost.find({
+      'applications.tutor': req.user.userId
+    })
+    .populate('guardian', 'name email location')
+    .sort({ 'applications.appliedAt': -1 });
+
+    const applications = posts.map(post => {
+      const application = post.applications.find(
+        app => app.tutor.toString() === req.user.userId
+      );
+      return {
+        ...post.toObject(),
+        myApplication: application
+      };
+    });
+
+    res.json(applications);
+  } catch (error) {
+    console.error('Error fetching my applications:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 // Get single tuition post
 router.get('/:id', async (req, res) => {
   try {
@@ -231,64 +289,6 @@ router.put('/:postId/applications/:applicationId', auth, async (req, res) => {
     res.json(updatedPost);
   } catch (error) {
     console.error('Error updating application status:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
-});
-
-// Get my posts (Guardian)
-router.get('/my/posts', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.userId);
-    
-    if (user.role !== 'guardian' && user.role !== 'admin') {
-      return res.status(403).json({ message: 'Access denied' });
-    }
-
-    let query = {};
-    if (user.role === 'guardian') {
-      query.guardian = req.user.userId;
-    }
-
-    const posts = await TuitionPost.find(query)
-      .populate('applications.tutor', 'name email avatar bio')
-      .populate('selectedTutor', 'name email avatar')
-      .sort({ createdAt: -1 });
-
-    res.json(posts);
-  } catch (error) {
-    console.error('Error fetching my posts:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
-});
-
-// Get my applications (Tutor)
-router.get('/my/applications', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.user.userId);
-    
-    if (user.role !== 'tutor') {
-      return res.status(403).json({ message: 'Only tutors can view applications' });
-    }
-
-    const posts = await TuitionPost.find({
-      'applications.tutor': req.user.userId
-    })
-    .populate('guardian', 'name email location')
-    .sort({ 'applications.appliedAt': -1 });
-
-    const applications = posts.map(post => {
-      const application = post.applications.find(
-        app => app.tutor.toString() === req.user.userId
-      );
-      return {
-        ...post.toObject(),
-        myApplication: application
-      };
-    });
-
-    res.json(applications);
-  } catch (error) {
-    console.error('Error fetching my applications:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
