@@ -1,145 +1,192 @@
-# Project_350_Tuition_Hub
-This is our Github repo for Project 350.
-<h1>Project Name:</h1> 
-<h3>Tuition_Hub</h3>
-<h1>Team Members:</h1>
-<h3>1.Irfanul Huda (2020331060)</h3>
-<h3>2.Zakaria Ahmed Jim (2020331050)</h3>
-<h3>3.Tanjima Rahman Farny (2020331074)</h3>
+# TuitionHub
 
-<h1>Tuition_Hub</h1>
-TuitionHub is a web platform connecting guardians seeking tutors with qualified educators. Guardians can create tuition posts, while tutors can browse and apply for opportunities. The platform supports filtering, application management, and user dashboards, with all transactions displayed in Bangladeshi Taka (৳).<br>
-<h1>Table of Contents</h1><br>
+A web platform connecting guardians seeking tutors with qualified educators in Bangladesh. Guardians post tuition requirements, tutors browse and apply, and students get access to an AI-powered learning assistant. All rates are displayed in Bangladeshi Taka (৳).
 
-Features<br>
-Technologies Used<br>
-Installation<br>
-Usage<br>
-API Endpoints<br>
+---
 
-<h1>Features</h1><br>
+## Team Members
 
+| Name | Student ID |
+|---|---|
+| Irfanul Huda | 2020331060 |
+| Zakaria Ahmed Jim | 2020331050 |
+| Tanjima Rahman Farny | 2020331074 |
 
-Guardian Features:<br>
-Create and manage tuition posts with details like subjects, budget, and schedule.<br>
-View and manage tutor applications (accept/reject).<br>
-Dashboard to track active posts and application statuses.<br>
+---
 
+## Table of Contents
 
-Tutor Features:<br>
-Browse and filter tuition posts by subject, location, budget, and teaching mode.<br>
-Apply to posts with a cover letter and proposed rate.<br>
-Dashboard to monitor application statuses<br>
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [License](#license)
 
-Student Features:<br>
-Can use ChatBot to study and analyse weakness.<br>
+---
 
-Admin Features:<br>
-Can remove posts or users.<br>
+## Features
 
-General Features:<br>
-User authentication (login, logout, role-based access).<br>
-Responsive UI with animated transitions.<br>
-Real-time data fetching and error handling.<br>
-Currency support for Bangladeshi Taka (৳).<br>
+### Guardian
+- Create tuition posts with subject, budget, schedule, location, and teaching mode
+- View and manage tutor applications — accept or reject with one click
+- Dashboard to track all active posts and their application statuses
 
+### Tutor
+- Browse and filter tuition posts by subject, location, budget, and teaching mode
+- Apply to posts with a cover letter and proposed rate
+- Dashboard to monitor the status of all submitted applications
 
+### Student
+- Access an AI-powered learning assistant (chatbot) for studying and self-assessment
+- Chatbot is exclusive to users registered with the Student role
 
-<h1>Technologies Used</h1><br>
+### Admin
+- View and manage all users and tuition posts on the platform
+- Remove inappropriate posts or suspend users
 
-Frontend:<br>
-React (TypeScript)<br>
-React Router for navigation<br>
-Framer Motion for animations<br>
-Lucide React for icons<br>
-Tailwind CSS for styling<br>
+### General
+- Role-based authentication using JWT (Guardian, Tutor, Student, Admin)
+- Real-time notifications via Socket.io (new applications, status updates)
+- Responsive UI with smooth animated transitions
+- Currency support for Bangladeshi Taka (৳)
 
+---
 
-Backend: <br>
-Node.js with Express<br>
-MongoDB for data storage<br>
-JWT for authentication<br>
+## Tech Stack
 
+**Frontend**
+- React 18 (TypeScript)
+- React Router v6
+- Tailwind CSS
+- Framer Motion
+- Lucide React
+- Socket.io Client
 
-Other:<br>
-Axios for API requests<br>
-Vite (assumed for development server)<br>
+**Backend**
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT authentication
+- Socket.io
+- OpenAI API (for the student chatbot)
 
+**Dev Tools**
+- Vite
+- Nodemon + Concurrently
+- ESLint + TypeScript ESLint
 
+---
 
-<h1>Installation</h1><br>
-Follow these steps to set up the project locally.<br>
-Prerequisites
-<br>
-Node.js (v18 or higher)<br>
-npm or Yarn<br>
-MongoDB (local or Atlas)<br>
-Backend API server running (see API Endpoints)
-<br>
-Steps<br>
+## Installation
 
-Clone the repository:<br>
-git clone <link><br>
-cd tuitionhub<br>
+### Prerequisites
 
+- Node.js v18 or higher
+- npm
+- MongoDB (local instance or MongoDB Atlas)
 
-Install dependencies:<br>
-npm install<br>
+### Steps
 
+**1. Clone the repository**
 
-Set up environment variables:Create a .env file in the root directory and add:<br>
-VITE_API_URL=http://localhost:5000<br>
-<br>
-Adjust VITE_API_URL to match your backend API URL.<br>
-<br>
-Run the backend server:Ensure the backend server is running (refer to your backend documentation). The default API URL is http://localhost:5000.<br>
-<br>
-Start the development server:<br>
-npm run dev<br>
+```bash
+git clone https://github.com/ZakariaJim1234/Project350_TuitionFinder.git
+cd Project350_TuitionFinder
+```
 
-The app will be available at http://localhost:5173 (or the port specified by Vite).<br>
+**2. Install dependencies**
 
+```bash
+npm install
+```
 
-Usage<br>
+**3. Configure the frontend environment**
 
-Register or log in:<br>
-Create an account as a guardian, tutor, or student.<br>
-Log in to access role-specific features.<br>
+Create a `.env` file in the project root:
 
+```env
+VITE_API_URL=http://localhost:5000
+```
 
-Guardians:<br>
-Navigate to the dashboard to create a new tuition post.<br>
-View applications under "My Tuition Posts" and accept/reject tutors.<br>
+**4. Configure the backend environment**
 
+Create a `.env` file inside the `server/` folder:
 
-Tutors:<br>
-Go to the "Tuition Posts" page to browse opportunities.<br>
-Apply to posts with a cover letter and proposed rate.<br>
-Track applications in the dashboard.<br>
+```env
+MONGODB_URI=mongodb://tuitionhub_user:dingD0ng@ac-fwahsex-shard-00-00.na1wcki.mongodb.net:27017,ac-fwahsex-shard-00-01.na1wcki.mongodb.net:27017,ac-fwahsex-shard-00-02.na1wcki.mongodb.net:27017/?ssl=true&replicaSet=atlas-9qadek-shard-0&authSource=admin&appName=TuitionHub
+JWT_SECRET=2d4e2e812f096d6c3146bebcc8f28b9a4c5794bc
+PORT=5000
+ADMIN_EMAIL=admin@tuitionhub.com
+ADMIN_PASSWORD=admin123
+```
 
+**5. Start the development servers**
 
-Admins (if implemented):<br>
-Access the platform overview to manage users and posts.<br>
+This runs both the frontend and backend concurrently:
 
+```bash
+npm run dev
+```
 
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000
 
-<h1>API Endpoints</h1><br>
-The frontend interacts with the following API endpoints (assumed based on the code):<br>
-<br>
-GET /api/tuition-posts: Fetch all tuition posts with filters.<br>
-GET /api/tuition-posts/my/posts: Fetch posts created by the guardian.<br>
-GET /api/tuition-posts/my/applications: Fetch applications submitted by the tutor.<br>
-POST /api/tuition-posts/:postId/apply: Submit an application to a post.<br>
-PUT /api/tuition-posts/:postId/applications/:applicationId: Update application status (accept/reject).<br>
-<br>
+---
 
+## Usage
 
-<h1>Guidelines</h1><br>
+### Register / Login
+- Create an account and select your role: **Guardian**, **Tutor**, or **Student**
+- Log in to access role-specific features
 
-Follow the existing code style (Prettier, ESLint if configured).
-Write clear, concise commit messages.
-Test your changes locally before submitting.
-Ensure no sensitive data is committed (e.g., .env files).
+### As a Guardian
+1. Go to the Dashboard and click **Create Tuition Post**
+2. Fill in subjects, budget, schedule, location, and preferred teaching mode
+3. View incoming applications under **My Tuition Posts** and accept or reject tutors
 
-<h1>License</h1><br>
-This project is licensed under the MIT License. See the LICENSE file for details.
+### As a Tutor
+1. Browse open posts on the **Tuition Posts** page
+2. Use filters to narrow by subject, location, budget, or teaching mode
+3. Click **Apply** on a post, write a cover letter, and set your proposed rate
+4. Track all applications from the **Dashboard**
+
+### As a Student
+1. Log in and look for the chatbot widget in the bottom-right corner
+2. Use the AI learning assistant to study topics or identify areas of weakness
+
+### As an Admin
+1. Log in with admin credentials
+2. Access the admin panel to review and remove posts or users as needed
+
+---
+
+## API Endpoints
+
+### Auth
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Log in and receive a JWT |
+
+### Tuition Posts
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/tuition-posts` | Fetch all posts (supports filters) |
+| POST | `/api/tuition-posts` | Create a new tuition post (Guardian) |
+| GET | `/api/tuition-posts/my/posts` | Fetch the guardian's own posts |
+| GET | `/api/tuition-posts/my/applications` | Fetch the tutor's submitted applications |
+| POST | `/api/tuition-posts/:postId/apply` | Apply to a tuition post (Tutor) |
+| PUT | `/api/tuition-posts/:postId/applications/:applicationId` | Accept or reject an application (Guardian) |
+
+### Tutors
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/tutors` | Fetch all tutor profiles |
+| GET | `/api/tutors/:id` | Fetch a specific tutor's profile |
+| PUT | `/api/tutors/:id` | Update tutor profile |
+
+---
+
+## License
+
+This project is licensed under the MIT License.
