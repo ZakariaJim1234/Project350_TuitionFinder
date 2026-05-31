@@ -14,7 +14,7 @@ const CreateTuitionPost = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    subjects: [{ name: '', level: 'elementary' as const }],
+    subjects: [{ name: '', level: 'elementary' }],
     studentInfo: {
       name: '',
       age: '',
@@ -383,11 +383,11 @@ const CreateTuitionPost = () => {
                     }}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value="elementary">Elementary School</option>
-                    <option value="middle">Middle School</option>
+                    <option value="primary school">Primary School</option>
+                    <option value="junior school">Junior School</option>
                     <option value="high">High School</option>
                     <option value="college">College</option>
-                    <option value="professional">Professional</option>
+                    <option value="university">University</option>
                   </select>
                 </div>
                 {formData.subjects.length > 1 && (
@@ -409,7 +409,7 @@ const CreateTuitionPost = () => {
               type="button"
               onClick={() => setFormData({
                 ...formData,
-                subjects: [...formData.subjects, { name: '', level: 'elementary' as const }]
+                subjects: [...formData.subjects, { name: '', level: 'elementary' }]
               })}
               className="flex items-center space-x-2 text-blue-600 hover:text-blue-700"
             >
