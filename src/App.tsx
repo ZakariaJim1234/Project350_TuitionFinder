@@ -7,7 +7,7 @@ import CreateTuitionPost from './pages/CreateTuitionPost';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import ChatBot from './components/ChatBot';
+import ChatBot from './components/Chatbot';
 
 function App() {
   return (
