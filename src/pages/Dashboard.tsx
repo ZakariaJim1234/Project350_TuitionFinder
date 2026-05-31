@@ -13,6 +13,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { api } from '../contexts/AuthContext';
 
 // Interfaces (improved type definitions)
 interface Tutor {
@@ -96,10 +97,8 @@ const Dashboard: React.FC = () => {
       setError(null);
 
       if (user.role === 'guardian') {
-        const postsResponse = await axios.get<Post[]>('http://localhost:5000/api/tuition-posts/my/posts', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        
+        const postsResponse = await api.get<Post[]>('/api/tuition-posts/my/posts');
+
         const posts = postsResponse.data ?? [];
         setMyPosts(posts);
 
@@ -115,10 +114,8 @@ const Dashboard: React.FC = () => {
           acceptedApplications,
         });
       } else if (user.role === 'tutor') {
-        const applicationsResponse = await axios.get<MyApplication[]>('http://localhost:5000/api/tuition-posts/my/applications', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        
+        const applicationsResponse = await api.get<MyApplication[]>('/api/tuition-posts/my/applications');
+
         const applications = applicationsResponse.data ?? [];
         setMyApplications(applications);
 
@@ -151,10 +148,9 @@ const Dashboard: React.FC = () => {
 
   const handleApplicationAction = async (postId: string, applicationId: string, status: string) => {
     try {
-      await axios.put(
-        `http://localhost:5000/api/tuition-posts/${postId}/applications/${applicationId}`,
-        { status },
-        { headers: { Authorization: `Bearer ${token}` } }
+      await api.put(
+        `/api/tuition-posts/${postId}/applications/${applicationId}`,
+        { status }
       );
       await fetchDashboardData();
     } catch (err: any) {
@@ -244,10 +240,10 @@ const Dashboard: React.FC = () => {
             {user.role === 'tutor'
               ? 'Manage your tutoring applications and profile'
               : user.role === 'guardian'
-              ? 'Track your tuition posts and applications'
-              : user.role === 'admin'
-              ? 'Manage the TuitionHub platform'
-              : 'Chat with Chatbot for assistance'}
+                ? 'Track your tuition posts and applications'
+                : user.role === 'admin'
+                  ? 'Manage the TuitionHub platform'
+                  : 'Chat with Chatbot for assistance'}
           </p>
         </motion.div>
 
@@ -303,13 +299,12 @@ const Dashboard: React.FC = () => {
                         <div className="flex justify-between items-start mb-4">
                           <h3 className="font-semibold text-lg text-gray-900">{post.title}</h3>
                           <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              post.status === 'active'
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${post.status === 'active'
                                 ? 'bg-green-100 text-green-700'
                                 : post.status === 'filled'
-                                ? 'bg-blue-100 text-blue-700'
-                                : 'bg-gray-100 text-gray-700'
-                            }`}
+                                  ? 'bg-blue-100 text-blue-700'
+                                  : 'bg-gray-100 text-gray-700'
+                              }`}
                           >
                             {post.status}
                           </span>
@@ -324,13 +319,12 @@ const Dashboard: React.FC = () => {
                               {post.applications.map(app => (
                                 <div
                                   key={app._id}
-                                  className={`border border-gray-200 rounded-lg p-3 ${
-                                    app.status === 'pending'
+                                  className={`border border-gray-200 rounded-lg p-3 ${app.status === 'pending'
                                       ? 'bg-yellow-50'
                                       : app.status === 'accepted'
-                                      ? 'bg-green-50'
-                                      : 'bg-red-50'
-                                  }`}
+                                        ? 'bg-green-50'
+                                        : 'bg-red-50'
+                                    }`}
                                 >
                                   <div className="flex justify-between items-center">
                                     <div>
@@ -408,13 +402,12 @@ const Dashboard: React.FC = () => {
                         <div className="flex justify-between items-start mb-2">
                           <h3 className="font-semibold text-gray-900">{application.title}</h3>
                           <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              application.myApplication?.status === 'pending'
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${application.myApplication?.status === 'pending'
                                 ? 'bg-yellow-100 text-yellow-700'
                                 : application.myApplication?.status === 'accepted'
-                                ? 'bg-green-100 text-green-700'
-                                : 'bg-red-100 text-red-700'
-                            }`}
+                                  ? 'bg-green-100 text-green-700'
+                                  : 'bg-red-100 text-red-700'
+                              }`}
                           >
                             {application.myApplication?.status ?? 'Unknown'}
                           </span>
