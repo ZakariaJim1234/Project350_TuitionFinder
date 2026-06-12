@@ -18,7 +18,7 @@ A web platform connecting guardians seeking tutors with qualified educators in B
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Installation](#installation)
+- [Live App](#live-app)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [License](#license)
@@ -77,59 +77,11 @@ A web platform connecting guardians seeking tutors with qualified educators in B
 
 ---
 
-## Installation
+## Live App
 
-### Prerequisites
+Click on the link below to get started with the app:
 
-- Node.js v18 or higher
-- npm
-- MongoDB (local instance or MongoDB Atlas)
-
-### Steps
-
-**1. Clone the repository**
-
-```bash
-git clone https://github.com/ZakariaJim1234/Project350_TuitionFinder.git
-cd Project350_TuitionFinder
-```
-
-**2. Install dependencies**
-
-```bash
-npm install
-```
-
-**3. Configure the frontend environment**
-
-Create a `.env` file in the project root:
-
-```env
-VITE_API_URL=http://localhost:5000
-```
-
-**4. Configure the backend environment**
-
-Create a `.env` file inside the `server/` folder:
-
-```env
-MONGODB_URI=mongodb://tuitionhub_user:dingD0ng@ac-fwahsex-shard-00-00.na1wcki.mongodb.net:27017,ac-fwahsex-shard-00-01.na1wcki.mongodb.net:27017,ac-fwahsex-shard-00-02.na1wcki.mongodb.net:27017/?ssl=true&replicaSet=atlas-9qadek-shard-0&authSource=admin&appName=TuitionHub
-JWT_SECRET=2d4e2e812f096d6c3146bebcc8f28b9a4c5794bc
-PORT=5000
-ADMIN_EMAIL=admin@tuitionhub.com
-ADMIN_PASSWORD=admin123
-```
-
-**5. Start the development servers**
-
-This runs both the frontend and backend concurrently:
-
-```bash
-npm run dev
-```
-
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:5000
+https://project350-tuition-finder.vercel.app/
 
 ---
 
